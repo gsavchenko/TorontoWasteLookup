@@ -1,0 +1,43 @@
+button {
+  color: white;
+  float: right;
+  padding: 10px 14px;
+  margin-top: 10px;
+  margin-right: 20px;
+  background: #23975d;
+  font-size: 17px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+button:hover {
+  background: #56ca90;
+}
+
+.searchContainer {
+  white-space: nowrap;
+  min-width: 650px;
+}
+
+.searchElement {
+  display: inline-block;
+  width: 300px;
+  white-space: normal;
+}
+
+input {
+  width: 90%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
