@@ -62,8 +62,8 @@ class SearchResults extends React.Component {
 
   renderItem(query) {
     return query.map((results, key) => (
-      <div className={styles.container} key={key}>
-        <div className={styles.one}>
+      <div className={`${styles.row} ${styles.container}`} key={key}>
+        <div className={`${styles.column} ${styles.star}`}>
           <FavoriteStar
             title={this.props.data[results].title}
             desc={this.props.data[results].body}
@@ -72,13 +72,13 @@ class SearchResults extends React.Component {
           />
         </div>
         <div
-          className={styles.two}
+          className={`${styles.column} ${styles.left}`}
           dangerouslySetInnerHTML={{
             __html: this.htmlDecode(this.props.data[results].title)
           }}
         />
         <div
-          className={styles.three}
+          className={`${styles.column} ${styles.right}`}
           dangerouslySetInnerHTML={{
             __html: this.htmlDecode(this.props.data[results].body)
           }}
@@ -140,8 +140,8 @@ class SearchResults extends React.Component {
 
   renderSavedItems = () => {
     return this.state.favorites.map((favorite, key) => (
-      <div className={styles.container} key={key}>
-        <div className={styles.one}>
+      <div className={`${styles.row} ${styles.container}`} key={key}>
+        <div className={`${styles.column} ${styles.star}`}>
           <FavoriteStar
             title={favorite.title}
             desc={favorite.desc}
@@ -149,9 +149,11 @@ class SearchResults extends React.Component {
             unSaveFavorite={this.unSaveFavorite}
           />
         </div>
-        <div className={styles.two}>{favorite.title}</div>
+        <div className={`${styles.column} ${styles.left}`}>
+          {favorite.title}
+        </div>
         <div
-          className={styles.three}
+          className={`${styles.column} ${styles.right}`}
           dangerouslySetInnerHTML={{
             __html: this.htmlDecode(favorite.desc)
           }}

@@ -50,18 +50,18 @@ class Search extends React.Component {
   render() {
     return (
       <div>
-        <div className={styles.searchContainer}>
+        <div className={styles.row}>
           <input
             value={this.state.inputValue}
             onKeyDown={this.keyPress}
             onChange={this.handleChange}
-            className="searchElement"
+            className={`${styles.column} ${styles.left}`}
             type="text"
             placeholder="Search..."
             name="search"
           />
           <button
-            className="searchElement"
+            className={`${styles.column} ${styles.right}`}
             onClick={() => this.submitSearch(this.state.inputValue)}
           >
             <i className="fa fa-search fa-2x" />

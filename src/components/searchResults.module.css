@@ -1,15 +1,61 @@
 .container {
-  width: 100%;
   padding: 20px;
 }
-.one {
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+}
+
+.star {
   width: 32px;
-  float: left;
 }
-.two {
-  width: 30%;
-  float: left;
+
+.left {
+  width: 35%;
 }
-.three {
-  margin-left: 40%;
+
+.right {
+  width: 60%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media only screen and (max-width: 714px) {
+  .column {
+    width: 90%;
+    float: left;
+  }
+
+  .left {
+    float: left;
+    margin-bottom: 10px;
+  }
+
+  .star {
+    float: left;
+    width: 32px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .column {
+    width: 80%;
+    float: left;
+  }
+
+  .left {
+    float: left;
+    margin-bottom: 10px;
+  }
+
+  .star {
+    float: left;
+    width: 32px;
+  }
 }
