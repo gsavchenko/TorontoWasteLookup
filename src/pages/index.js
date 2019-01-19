@@ -1,14 +1,16 @@
 import React from "react";
 import Body from "../components/body";
 import Header from "../components/header";
-import Search from "../components/search";
+import SearchBar from "../components/searchBar";
 import { graphql } from "gatsby";
+import WasteWizardDataManager from "../utils/dataManager";
 
 export default ({ data }) => (
   <div>
+    {WasteWizardDataManager.mapWasteWizardKeywords(data)}
     <Header>Toronto Waste Lookup</Header>
     <Body>
-      <Search JSONData={data} />
+      <SearchBar />
     </Body>
   </div>
 );

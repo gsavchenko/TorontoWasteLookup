@@ -1,4 +1,10 @@
 import React from "react";
+import LocalStorage from "../utils/localStorage";
+
+const COLORS = {
+  ON: "#56ca90",
+  OFF: "grey"
+};
 
 class FavoriteStar extends React.Component {
   constructor() {
@@ -7,50 +13,10 @@ class FavoriteStar extends React.Component {
     this.state = {
       title: "",
       desc: "",
-      color: "grey"
+      color: COLORS.OFF,
+      isActive: false
     };
   }
-
-  checkSaved = () => {
-    let loadFavorites = localStorage.getItem("favorites");
-    let isSaved = false;
-
-    if (loadFavorites !== null) {
-      loadFavorites = JSON.parse(loadFavorites);
-
-      loadFavorites.forEach(item => {
-        if (this.state.title.localeCompare(item.title) === 0) {
-          isSaved = true;
-        }
-      });
-    }
-
-    if (isSaved === true) {
-      this.setState({ color: "#56ca90" });
-    }
-  };
-
-  toggleFavorite = () => {
-    this.forceUpdate();
-    if (this.state.color === "grey") {
-      this.setState({
-        color: "#56ca90"
-      });
-
-      this.props.saveFavorite({
-        title: this.state.title,
-        desc: this.state.desc
-      });
-    } else {
-      this.setState({
-        color: "grey"
-      });
-      this.props.unSaveFavorite({
-        title: this.state.title,
-        desc: this.state.desc
-      });
-    }
-  };
 
   componentDidMount() {
     this.setState(
@@ -58,15 +24,88 @@ class FavoriteStar extends React.Component {
         title: this.props.title,
         desc: this.props.desc
       },
-      () => this.checkSaved()
+      () => this.initialize()
     );
   }
 
+  initialize = () => {
+    if (this.checkIfActivated() === true) {
+      this.activate();
+    }
+  };
+
+  activate() {
+    this.setState({
+      color: COLORS.ON,
+      isActive: true
+    });
+  }
+
+  deactivate() {
+    this.setState({
+      color: COLORS.OFF,
+      isActive: false
+    });
+  }
+
+  saveToLocalStorage = entry => {
+    let toUpdate = LocalStorage.obtain("favorites", { createIfMissing: true });
+    toUpdate.push(entry);
+    LocalStorage.set("favorites", toUpdate);
+  };
+
+  deleteFromLocalStorage = entry => {
+    let loadFavorites = LocalStorage.obtain("favorites");
+    let toUpdate = loadFavorites.filter(entryStored => entryStored.title.localeCompare(entry.title) !== 0);
+
+    LocalStorage.set("favorites", toUpdate);
+  };
+
+  checkIfActivated = () => {
+    let isFavorited = false;
+
+    LocalStorage.obtain("favorites", { createIfMissing: true }).forEach(
+      item => {
+        if (this.state.title.localeCompare(item.title) === 0) {
+          isFavorited = true;
+        }
+      }
+    );
+
+    return isFavorited;
+  };
+
+  toggleColor = () => {
+    if (this.state.isActive === false) {
+      this.activate();
+    } else {
+      this.deactivate();
+    }
+  };
+
+  toggleLocalStorage = () => {
+    if (this.state.isActive === false) {
+      this.saveToLocalStorage({
+        title: this.state.title,
+        desc: this.state.desc
+      });
+    } else {
+      this.deleteFromLocalStorage({
+        title: this.state.title,
+        desc: this.state.desc
+      });
+    }
+  };
+
+  toggleFavorite = () => {
+    this.toggleColor();
+    this.toggleLocalStorage();
+    this.props.update(); //update parents
+  };
+
   render() {
     return (
-      <div onClick={this.toggleFavorite}>
-        <i className={`fa fa-star`} style={{ color: this.state.color }} />
-      </div>
+        <i onClick={this.toggleFavorite} className={`fa fa-star`} style={{ color: this.state.color }} />
     );
   }
 }
