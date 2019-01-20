@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+ * convert text to html
+ */
 class DangerHTML extends React.Component {
   htmlDecode(input) {
     var e = document.createElement("div");

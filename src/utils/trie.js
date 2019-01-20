@@ -1,3 +1,12 @@
+/**
+ * Attribution:
+ * Source: https://gist.github.com/tpae/72e1c54471e88b689f85ad2b3940a8f0
+ * Author: Terence Pae
+ * Link: https://gist.github.com/tpae
+ * Modified by: George Savchenko
+ * Needed a prefix tree to do the search
+ */
+
 class trieNode {
   constructor(key) {
     this.key = key; //character in sequence
@@ -6,7 +15,7 @@ class trieNode {
     this.endOfWord = false;
   }
 
-  //itterate through parents to get word
+  //iterate through parents to get word
   getWord() {
     let output = [];
     let node = this;

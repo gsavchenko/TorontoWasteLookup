@@ -1,8 +1,11 @@
 import React from "react";
-import DangerousHTML from "./dangerousHTML";
-import FavoriteStar from "../components/favoriteStar";
-import styles from "./searchResults.module.css";
+import DangerousHTML from "./DangerousHTML";
+import FavoriteStar from "./FavoriteStar";
+import styles from "../css/entries.module.css";
 
+/**
+ * renders lists of waste wizard entries
+ */
 class WasteWizardEntries extends React.Component {
   renderStar(favorite) {
     return (
@@ -30,17 +33,19 @@ class WasteWizardEntries extends React.Component {
   }
 
   renderEntries() {
-    return this.props.entries.map((entry, key) => (
-      <div key={key} className={`${styles.row} ${styles.container}`}>
-        {this.renderStar(entry)}
-        {this.renderEntryTitle(entry.title)}
-        {this.renderEntryDescription(entry.desc)}
-      </div>
-    ));
+    if (this.props.entries !== undefined) {
+      return this.props.entries.map((entry, key) => (
+        <div key={key} className={`${styles.row} ${styles.container}`}>
+          {this.renderStar(entry)}
+          {this.renderEntryTitle(entry.title)}
+          {this.renderEntryDescription(entry.desc)}
+        </div>
+      ));
+    }
   }
 
   render() {
-    return this.renderEntries();
+    return <div>{this.renderEntries()}</div>;
   }
 }
 

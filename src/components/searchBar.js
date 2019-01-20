@@ -1,16 +1,13 @@
 import React from "react";
-import update from 'immutability-helper';
 import "font-awesome/css/font-awesome.min.css";
-import styles from "./search.module.css";
-import SearchResults from "./searchResults";
+import styles from "../css/search.module.css";
+import SearchResults from "./SearchResults";
 import DataManager from "../utils/dataManager";
 import LocalStorage from "../utils/localStorage";
 
 const KEYBOARD = {
   ENTER: 13
 };
-
-let ignore = true;
 
 class SearchBar extends React.Component {
   constructor(props) {
@@ -34,7 +31,16 @@ class SearchBar extends React.Component {
     const results = DataManager.keywords.search(searchQuery.toLowerCase());
     const entries = this.titlesToEntries(results);
 
-    this.setState({ searchResults: entries });
+    if (searchQuery === "") {
+      this.submitNoResults();
+    } else if (
+      entries.length === 0 &&
+      searchQuery.localeCompare("default") !== 0
+    ) {
+      this.submitNoResults();
+    } else {
+      this.setState({ searchResults: entries });
+    }
   };
 
   handleChange = event => {
@@ -54,44 +60,40 @@ class SearchBar extends React.Component {
     this.submitSearch("default");
   }
 
+  submitNoResults() {
+    this.setState({
+      searchResults: [
+        { title: "Oh no :(", desc: "No results for this query, try again!" }
+      ]
+    });
+  }
+
+  /**
+   * update search results when 'favorites' stars clicked
+   * remove the entries that don't need to be updated, update the state, then update back to original
+   */
   update = () => {
     const loadFavorites = LocalStorage.obtain("favorites");
     const currentResults = [...this.state.searchResults];
-    let updatedResults = [];
-    let theSame = [];
-    let index = 0;
+    const updatedResults = [];
 
-    console.log(loadFavorites);
-
-    //look through current search results
     currentResults.forEach(entry => {
-      let toUpdate = false;
+      let toUpdate = true;
 
-      //for each search results compare to the saved favorites
-      loadFavorites.forEach(favorite => {
-        //if the names are not the same the result is no longer favorited
-        if(entry.title.localeCompare(favorite.title) !== 0)
-        {
-          toUpdate = true;
+      loadFavorites.forEach(storedEntry => {
+        if (storedEntry.title.localeCompare(entry.title) === 0) {
+          toUpdate = false;
         }
       });
 
-      if(toUpdate === true){
-        updatedResults.push(entry); //create new entry
-        //this.setState({searchResults[index]: })
-
-      } else {
-       // updatedResults.push(currentResults[index]);
+      if (toUpdate === false) {
+        updatedResults.push(entry);
       }
-
-      index++;
     });
 
-    console.log(updatedResults);
-
-    //reset search results and update
-    //this.setState({searchResults: updatedResults});
-    //this.setState({searchResults: []}, () => {this.setState({searchResults: updatedResults});});
+    this.setState({ searchResults: updatedResults }, () =>
+      this.setState({ searchResults: currentResults })
+    );
   };
 
   render() {
@@ -114,7 +116,10 @@ class SearchBar extends React.Component {
             <i className="fa fa-search fa-2x" />
           </button>
         </div>
-        <SearchResults searchResults={this.state.searchResults} update={this.update}/>
+        <SearchResults
+          searchResults={this.state.searchResults}
+          update={this.update}
+        />
       </div>
     );
   }

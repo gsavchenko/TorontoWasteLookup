@@ -18,7 +18,10 @@ class LocalStorage extends React.Component {
     }
   }
 
-  // get data from disk with the option to return a new array instead of null if nothing is found
+  /**
+   * get data from disk with the option to return a new array instead of null if nothing is found
+   **/
+
   static obtain(key, options) {
     let toObtain = this.getWrapper(key);
     let defaultOptions = { createIfMissing: false };
@@ -32,12 +35,17 @@ class LocalStorage extends React.Component {
         return [];
       }
     } else {
-      toObtain = JSON.parse(toObtain);
+      if (toObtain !== undefined) {
+        toObtain = JSON.parse(toObtain);
+      }
     }
 
     return toObtain;
   }
 
+  /**
+   * check that options are enabled
+   */
   static isCreateOptionEnabled(options) {
     if (options !== undefined) {
       if (options.createIfMissing !== undefined) {

@@ -1,7 +1,7 @@
 import React from "react";
-import Body from "../components/body";
+import Body from "../components/Body";
 import Header from "../components/header";
-import SearchBar from "../components/searchBar";
+import SearchBar from "../components/SearchBar";
 import { graphql } from "gatsby";
 import WasteWizardDataManager from "../utils/dataManager";
 

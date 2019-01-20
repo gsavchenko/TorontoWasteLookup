@@ -1,7 +1,7 @@
 import React from "react";
 import WasteWizardEntries from "./WasteWizardEntries";
-import Favorites from "./favorites";
-import LocalStorage from "../utils/localStorage";;
+import Favorites from "./Favorites";
+import LocalStorage from "../utils/localStorage";
 
 class SearchResults extends React.Component {
   constructor() {
@@ -20,13 +20,19 @@ class SearchResults extends React.Component {
 
   updateSearchResults = () => {
     this.props.update();
-  }
+  };
 
   render() {
     return (
       <div>
-        <WasteWizardEntries entries={this.props.searchResults} update={this.update} />
-        <Favorites entries={this.state.favorites} update={this.update}/>
+        <WasteWizardEntries
+          entries={this.props.searchResults}
+          update={this.update}
+        />
+        <Favorites
+          entries={this.state.favorites}
+          update={this.updateSearchResults}
+        />
       </div>
     );
   }

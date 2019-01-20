@@ -27,7 +27,7 @@ class FavoriteStar extends React.Component {
       () => this.initialize()
     );
   }
-
+  
   initialize = () => {
     if (this.checkIfActivated() === true) {
       this.activate();
