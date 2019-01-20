@@ -17,7 +17,10 @@ class SearchBar extends React.Component {
       searchResults: []
     };
   }
-
+  
+   /**
+   * convert search results 'titles' to 'entries' (title + desc)
+   */
   titlesToEntries(entryTitles) {
     return entryTitles.map(title => {
       return {
@@ -70,7 +73,7 @@ class SearchBar extends React.Component {
 
   /**
    * update search results when 'favorites' stars clicked
-   * remove the entries that don't need to be updated, update the state, then update back to original
+   * remove the entries that need to be updated, update the state, then update back to original
    */
   update = () => {
     const loadFavorites = LocalStorage.obtain("favorites");
