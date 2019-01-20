@@ -106,7 +106,7 @@ class SearchBar extends React.Component {
             onChange={this.handleChange}
             className={`${styles.column} ${styles.left}`}
             type="text"
-            placeholder="Search..."
+            placeholder="Search for a waste item to dispose..."
             name="search"
           />
           <button
